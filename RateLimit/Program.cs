@@ -17,6 +17,17 @@ builder.Services.AddRateLimiter(options =>
 
     });
 });
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddSlidingWindowLimiter("sliding", option =>
+    {
+        option.Window = TimeSpan.FromSeconds(10);
+        option.PermitLimit = 1;
+        option.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        option.SegmentsPerWindow = 3;
+    });
+});
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
